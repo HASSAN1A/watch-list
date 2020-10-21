@@ -6,10 +6,6 @@ class Config:
     MOVIE_API_KEY = os.environ.get('MOVIE_API_KEY')
     SECRET_KEY = os.environ.get('SECRET_KEY')
 
-    @staticmethod
-    def init_app(app):
-        pass
-
 
 class ProdConfig(Config):
     pass
@@ -21,5 +17,4 @@ class DevConfig(Config):
 config_options = {
 'development':DevConfig,
 'production':ProdConfig
-
 }

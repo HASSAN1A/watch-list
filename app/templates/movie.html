@@ -1,41 +1,56 @@
-{% extends 'base.html'%}
-
 {% import 'macros.html' as macro%}
-<!-- Content block -->
-{% block content %}
-<div class="container">
+{% extends 'base.html'%}
+<!DOCTYPE html>
+<html>
 
-    <!-- Poster background -->
-    <div class="row">
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 posterPath"
-            style="background: url({{movie.poster}}) no-repeat center center">
+<head>
+    <!-- Styles block -->
+
+    {% block styles%}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/movie.css')}}">
+    {% endblock %}
+</head>
+
+<body>
+    <!-- Content block -->
+    {% block content %}
+    <div class="container">
+
+        <!-- Poster background -->
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 posterPath"
+                style="background: url({{movie.poster}}) no-repeat center center;background-size:contain; width: 50%; height: 450px;">
+            </div>
+
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 movie-details">
+                <h3>{{ movie.title }}</h3>
+
+                <p class="overview"> {{ movie.overview }}</p>
+                <p class="ratings"> <b> {{ movie.vote_average }}</b> - <i>{{ movie.vote_count}} votes </i> </p>
+                <a class="ratings" href="/movie/review/new/{{movie.id}}"> Write a new review</a>
+
+            </div>
         </div>
 
-        <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 movie-details">
-            <h3>{{ movie.title }}</h3>
+        <div class="row">
 
-            <p class="overview"> {{ movie.overview }}</p>
-
-            <p class="ratings"> <b> {{ movie.vote_average }}</b> - <i>{{ movie.vote_count}} votes </i> </p>
-            <a class="ratings" href="/movie/review/new/{{movie.id}}"> Write a new review</a>
-
+            <h1>Reviews</h1>
+            <hr>
+    
+            {% if reviews %}
+                {{macro.displayReviews(reviews)}}
+    
+            {% else%}
+                <h3 class="text-center">This movie has no reviews </h3>
+    
+                <a class="btn btn-success btn-lg text-center" href="/movie/review/new/{{movie.id}}"> Write a new review</a>
+            {% endif %}
+    
         </div>
-    </div>
-    <div class="row">
-
-        <h1>Reviews</h1>
-        <hr>
-
-        {% if reviews %}
-        {{macro.displayReviews(reviews)}}
-
-        {% else%}
-        <h3 class="text-center">This movie has no reviews </h3>
-
-        <a class="btn btn-success btn-lg text-center" href="/movie/review/new/{{movie.id}}"> Write a new review</a>
-        {% endif %}
 
     </div>
+    {% endblock %}
+</body>
 
-</div>
-{% endblock %}
+</html>
